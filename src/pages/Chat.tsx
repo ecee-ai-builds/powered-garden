@@ -245,7 +245,7 @@ const Chat = () => {
           <div className="p-4 border-t border-primary/20 space-y-3">
             {/* Plant Selection Buttons */}
             <div className="grid grid-cols-3 gap-2">
-              {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} className="h-auto py-2 px-3 text-center justify-center disabled:opacity-50 rounded-full font-light text-xs text-white bg-primary hover:bg-primary/80">
+              {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} variant="outline" className="h-auto py-2 px-3 text-center justify-center disabled:opacity-50 rounded-full font-normal text-xs border-border/50 hover:bg-accent hover:border-border transition-colors">
                   {plant}
                 </Button>)}
             </div>
