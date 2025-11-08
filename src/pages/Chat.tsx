@@ -15,6 +15,8 @@ interface Message {
 
 interface PlantInfo {
   common_name: string;
+  name_malay: string;
+  name_chinese: string;
   cabinet_fit: string;
   cycle_days: string;
   setpoints: {
@@ -37,6 +39,8 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [plantInfo, setPlantInfo] = useState<PlantInfo | null>({
     common_name: "Lettuce (Butterhead)",
+    name_malay: "Salad Mentega",
+    name_chinese: "奶油生菜",
     cabinet_fit: "compact",
     cycle_days: "35–45",
     setpoints: {
@@ -264,10 +268,20 @@ const Chat = () => {
             <CardContent className="p-0">
               {/* Header - Pokemon card style */}
               <div className="bg-gradient-to-r from-primary/20 to-primary/10 px-4 py-2 border-b border-primary/20">
-                <div className="flex items-center gap-2 mb-2">
-                  <Sprout className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-bold text-primary uppercase tracking-wide flex-1">
-                    {plantInfo.common_name}
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2 flex-1 min-w-0">
+                    <Sprout className="h-4 w-4 text-primary flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-bold text-primary uppercase tracking-wide">
+                        {plantInfo.common_name}
+                      </div>
+                      <div className="text-xs text-muted-foreground italic mt-0.5">
+                        {plantInfo.name_malay}
+                      </div>
+                    </div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground flex-shrink-0">
+                    {plantInfo.name_chinese}
                   </span>
                 </div>
                 <div className="flex gap-2 text-xs">
