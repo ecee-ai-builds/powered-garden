@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Send, Loader2, Thermometer, Droplets, TestTube, Sprout } from "lucide-react";
+import { Send, Loader2, Thermometer, Droplets, TestTube } from "lucide-react";
 import { useSensorContext } from "@/context/SensorContext";
 import { toast } from "@/hooks/use-toast";
+import lettuceLeaf from "@/assets/lettuce-leaf.png";
 interface Message {
   role: "user" | "assistant";
   content: string;
@@ -283,7 +284,7 @@ const Chat = () => {
               {/* Plant illustration */}
               <div className="px-4 pt-4 pb-2">
                 <div className="h-28 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center bg-sidebar/40">
-                  <Sprout className="h-12 w-12 text-primary/40" />
+                  <img src={lettuceLeaf} alt="Butterhead Lettuce" className="h-20 w-20 object-contain" />
                 </div>
                 <p className="text-muted-foreground italic mt-2 text-center text-xs">
                   {plantInfo.whimsical_fact}
