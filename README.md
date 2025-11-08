@@ -1,73 +1,90 @@
-# Welcome to your Lovable project
+# Powered Garden — AI Garden Dashboard
 
-## Project info
+Lovable handles the visual design for this project. Cursor (or any local IDE) is used to integrate live Raspberry Pi telemetry (`latest.json`), debug, and deploy the static build onto the Pi.
 
-**URL**: https://lovable.dev/projects/5b674266-9311-498d-a67d-ca452a416d3f
+---
 
-## How can I edit this code?
+## 1. Design ↔ Code workflow
 
-There are several ways of editing your application.
+1. **Design in Lovable**  
+   Project URL: https://lovable.dev/projects/5b674266-9311-498d-a67d-ca452a416d3f  
+   Whenever you publish/save, Lovable commits to this GitHub repository.
 
-**Use Lovable**
+2. **Pull into Cursor**  
+   ```bash
+   git clone https://github.com/ecee-ai-builds/powered-garden.git
+   cd powered-garden
+   git pull   # run this each time after updating in Lovable
+   npm install
+   ```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5b674266-9311-498d-a67d-ca452a416d3f) and start prompting.
+3. **Develop & Debug**  
+   - Live dev server (with live sensor JSON support):
+     ```bash
+     SENSOR_DATA_PATH=/home/esther/ai_garden/latest.json npm run dev -- --host 0.0.0.0 --port 5173
+     ```
+   - Visit `http://<pi-ip>:5173` from any LAN device while the Pi sensor script is running (`~/ai_garden/dht22_latest.py`).
+   - The app polls `/latest.json` every 2.5 s and drives all dashboard widgets through `useSensorData`.
 
-Changes made via Lovable will be committed automatically to this repo.
+4. **Push back to Lovable**  
+   Commit/merge your Cursor changes and push. Lovable will pull the latest on the next publish.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 2. Deployment to Raspberry Pi
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+# On your workstation (within the repo)
+npm run build
+rsync -av dist/ pi@<pi-ip>:~/ai_garden/powered-garden-dist/
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# On the Pi
+ssh pi@<pi-ip>
+cd ~/ai_garden
+python -m http.server 8080 --directory powered-garden-dist
+# or: npx serve -s powered-garden-dist -l 8080
 ```
 
-**Edit a file directly in GitHub**
+Open `http://<pi-ip>:8080` on the LAN to view the production build.  
+Tip: create a `systemd` unit for both the sensor loop and the static server to survive reboots.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 3. Environment Variables
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+| Variable | Purpose | Default |
+| -------- | ------- | ------- |
+| `VITE_SENSOR_URL` | Remote endpoint if `latest.json` is hosted elsewhere | `/latest.json` |
+| `VITE_SENSOR_REFRESH_MS` | Polling cadence in milliseconds | `2500` |
+| `SENSOR_DATA_PATH` | Filesystem path to `latest.json` for the dev middleware | `../latest.json` |
 
-## What technologies are used for this project?
+---
 
-This project is built with:
+## 4. Project Structure Highlights
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── context/SensorContext.tsx   # wraps the app with live sensor state
+├── hooks/useSensorData.ts      # polling + cache-buster + status tracking
+├── pages/Command.tsx           # Lovable-designed dashboard using real telemetry
+└── components/ui/              # shadcn + Lovable UI primitives
+```
 
-## How can I deploy this project?
+The `Command` page renders Lovable’s cyberpunk layout while reacting to live temperature/humidity data and surface-level health states (optimal/warning/offline).
 
-Simply open [Lovable](https://lovable.dev/projects/5b674266-9311-498d-a67d-ca452a416d3f) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## 5. Troubleshooting
 
-Yes, you can!
+- **No readings?** Ensure `~/ai_garden/latest.json` is updating and the dev server can read it (`SENSOR_DATA_PATH`).
+- **CORS issues in dev?** Run `npm run dev` on the Pi or use the provided middleware to serve `latest.json` locally.
+- **UI drift after Lovable edits?** Pull the repo in Cursor before coding to align with the newest generated components.
+- **Need history/charts?** Extend `useSensorData` or add new hooks/components; run `npm run lint` / `npm run build` to verify before deployment.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 6. References
+
+- Lovable project: https://lovable.dev/projects/5b674266-9311-498d-a67d-ca452a416d3f
+- Sensor loop: `~/ai_garden/dht22_latest.py`
+- Live data file: `~/ai_garden/latest.json`
