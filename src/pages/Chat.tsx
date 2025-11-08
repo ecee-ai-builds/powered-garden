@@ -248,7 +248,13 @@ const Chat = () => {
       </div>
 
       {/* Plant Profile Card - Pokemon-inspired */}
-      <div className="flex-1 flex flex-col" style={{ paddingTop: '60px' }}>
+      <div className="flex-1 flex flex-col">
+        {/* Spacer to align with chat header */}
+        <div className="mb-4">
+          <div className="text-2xl opacity-0 pointer-events-none">SPACER</div>
+          <p className="text-xs opacity-0 mt-1">spacer</p>
+        </div>
+        
         <Card className="border-2 border-primary/30 bg-gradient-to-br from-sidebar/90 to-sidebar/50 backdrop-blur shadow-lg rounded-2xl overflow-hidden h-fit">
           {!plantInfo ? (
             // Skeleton state
