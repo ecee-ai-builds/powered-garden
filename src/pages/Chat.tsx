@@ -75,7 +75,6 @@ const Chat = () => {
   const {
     data: sensorData
   } = useSensorContext();
-  
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -215,7 +214,7 @@ const Chat = () => {
             <div className="space-y-4">
               {messages.map((msg, idx) => <div key={idx} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                   <div className={`max-w-[80%] rounded-lg px-4 py-3 ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>
-                    <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
+                    <p className="text-sm whitespace-pre-wrap font-thin">{msg.content}</p>
                   </div>
                 </div>)}
               {isLoading && <div className="flex justify-start">
@@ -249,8 +248,8 @@ const Chat = () => {
           <div className="pr-4 space-y-3">
         <Card className="border-2 border-primary/30 bg-gradient-to-br from-sidebar/90 to-sidebar/50 backdrop-blur shadow-lg rounded-2xl overflow-hidden">
           {!plantInfo ?
-        // Skeleton state
-        <CardContent className="p-4 space-y-3">
+            // Skeleton state
+            <CardContent className="p-4 space-y-3">
               <div className="flex justify-between items-start mb-2">
                 <Skeleton className="h-5 w-24" />
                 <Skeleton className="h-5 w-16" />
@@ -289,12 +288,9 @@ const Chat = () => {
               {/* Plant illustration */}
               <div className="px-4 pt-4 pb-2">
                 <div className="h-28 rounded-lg flex items-center justify-center relative">
-                  <img 
-                    src={lettuceIcon} 
-                    alt={plantInfo.common_name}
-                    className="h-24 w-24 object-contain"
-                    style={{ filter: 'brightness(0) saturate(100%) invert(45%) sepia(100%) saturate(500%) hue-rotate(10deg)' }}
-                  />
+                  <img src={lettuceIcon} alt={plantInfo.common_name} className="h-24 w-24 object-contain" style={{
+                    filter: 'brightness(0) saturate(100%) invert(45%) sepia(100%) saturate(500%) hue-rotate(10deg)'
+                  }} />
                 </div>
                 <p className="text-muted-foreground italic mt-2 text-center text-xs">
                   {plantInfo.whimsical_fact}
@@ -374,45 +370,33 @@ const Chat = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0 space-y-3">
-            <button
-              onClick={() => {
+            <button onClick={() => {
                 const recipePrompt = "Tell me more about Nasi Goreng USA and how to prepare lettuce for it";
                 setInput(recipePrompt);
                 setTimeout(() => handleSend(), 100);
-              }}
-              disabled={isLoading}
-              className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all"
-            >
+              }} disabled={isLoading} className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all">
               <div className="font-medium text-sm text-foreground">Nasi Goreng USA</div>
               <div className="text-xs text-muted-foreground mt-1">
                 Wrapped with rice & sambal
               </div>
             </button>
 
-            <button
-              onClick={() => {
+            <button onClick={() => {
                 const recipePrompt = "Tell me more about Yong Tau Foo and how to use lettuce in it";
                 setInput(recipePrompt);
                 setTimeout(() => handleSend(), 100);
-              }}
-              disabled={isLoading}
-              className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all"
-            >
+              }} disabled={isLoading} className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all">
               <div className="font-medium text-sm text-foreground">Yong Tau Foo</div>
               <div className="text-xs text-muted-foreground mt-1">
                 Served in clear soup or dry with sauce
               </div>
             </button>
 
-            <button
-              onClick={() => {
+            <button onClick={() => {
                 const recipePrompt = "Tell me more about using lettuce as ulam and what to eat with it";
                 setInput(recipePrompt);
                 setTimeout(() => handleSend(), 100);
-              }}
-              disabled={isLoading}
-              className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all"
-            >
+              }} disabled={isLoading} className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all">
               <div className="font-medium text-sm text-foreground">Ulam Platter</div>
               <div className="text-xs text-muted-foreground mt-1">
                 Fresh with sambal belacan & ikan bilis
