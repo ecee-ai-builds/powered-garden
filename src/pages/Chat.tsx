@@ -8,6 +8,8 @@ import { Send, Loader2, Thermometer, Droplets, TestTube } from "lucide-react";
 import { useSensorContext } from "@/context/SensorContext";
 import { toast } from "@/hooks/use-toast";
 import { LettuceLeafIcon } from "@/components/LettuceLeafIcon";
+import { usePlantImageGenerator } from "@/hooks/usePlantImageGenerator";
+import { extractPlantFromResponse } from "@/utils/plantDetector";
 interface Message {
   role: "user" | "assistant";
   content: string;
@@ -75,6 +77,7 @@ const Chat = () => {
   const {
     data: sensorData
   } = useSensorContext();
+  const { generatePlantImage, isGenerating: isGeneratingImage, currentPlantImage, currentPlantName } = usePlantImageGenerator();
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -171,7 +174,22 @@ const Chat = () => {
           try {
             const parsed = JSON.parse(jsonStr);
             const content = parsed.choices?.[0]?.delta?.content;
-            if (content) upsertAssistant(content);
+            if (content) {
+              upsertAssistant(content);
+              
+              // Check if the response contains a plant name
+              const detectedPlant = extractPlantFromResponse(assistantContent + content);
+              if (detectedPlant && detectedPlant !== currentPlantName) {
+                // Generate image for the detected plant
+                generatePlantImage(detectedPlant);
+                
+                // Update plant info with detected plant
+                setPlantInfo(prev => prev ? {
+                  ...prev,
+                  common_name: detectedPlant
+                } : null);
+              }
+            }
           } catch {
             textBuffer = line + "\n" + textBuffer;
             break;
@@ -283,8 +301,18 @@ const Chat = () => {
 
               {/* Plant illustration */}
               <div className="px-4 pt-4 pb-2">
-                <div className="h-28 rounded-lg flex items-center justify-center">
-                  <LettuceLeafIcon className="h-20 w-20" />
+                <div className="h-28 rounded-lg flex items-center justify-center relative">
+                  {isGeneratingImage ? (
+                    <Loader2 className="h-12 w-12 animate-spin text-primary/40" />
+                  ) : currentPlantImage ? (
+                    <img 
+                      src={currentPlantImage} 
+                      alt={currentPlantName}
+                      className="h-24 w-24 object-contain animate-fade-in"
+                    />
+                  ) : (
+                    <LettuceLeafIcon className="h-20 w-20" />
+                  )}
                 </div>
                 <p className="text-muted-foreground italic mt-2 text-center text-xs">
                   {plantInfo.whimsical_fact}
