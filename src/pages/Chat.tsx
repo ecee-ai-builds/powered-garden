@@ -68,7 +68,7 @@ const Chat = () => {
       }
     },
     notes: "Cooler-loving; adjust airflow to avoid tip burn.",
-    whimsical_fact: "Perfect crispy cups for wrapping ayam percik or sambal petai, butterhead lettuce brings a cooling crunch to balance Malaysia's fiery flavours!"
+    whimsical_fact: "Perfect crispy cups for wrapping ayam percik or sambal petai."
   });
   const scrollRef = useRef<HTMLDivElement>(null);
   const {
