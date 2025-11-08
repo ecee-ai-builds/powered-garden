@@ -95,22 +95,20 @@ const Chat = () => {
     }
   }, [messages]);
   const handlePlantSelect = (plant: string) => {
-    setShowPlantOptions(false);
     const plantMessage = `I want to grow ${plant}`;
-    setInput(plantMessage);
-    setTimeout(() => handleSend(), 100);
-  };
-
-  const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
-    setShowPlantOptions(false);
     const userMessage: Message = {
       role: "user",
-      content: input
+      content: plantMessage
     };
     setMessages(prev => [...prev, userMessage]);
-    setInput("");
+    setShowPlantOptions(false);
     setIsLoading(true);
+    
+    // Send to API
+    sendToAPI([...messages, userMessage]);
+  };
+
+  const sendToAPI = async (messageHistory: Message[]) => {
     try {
       const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
       const response = await fetch(CHAT_URL, {
@@ -120,7 +118,7 @@ const Chat = () => {
           Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`
         },
         body: JSON.stringify({
-          messages: [...messages, userMessage],
+          messages: messageHistory,
           sensorData: sensorData ? {
             temperature: sensorData.temp_c,
             humidity: sensorData.humidity_percent,
@@ -213,6 +211,20 @@ const Chat = () => {
       setIsLoading(false);
     }
   };
+
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return;
+    setShowPlantOptions(false);
+    const userMessage: Message = {
+      role: "user",
+      content: input
+    };
+    setMessages(prev => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
+    await sendToAPI([...messages, userMessage]);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
