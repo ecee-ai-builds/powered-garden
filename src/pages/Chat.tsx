@@ -366,21 +366,60 @@ const Chat = () => {
             </CardContent>}
         </Card>
 
-        {/* Recipes Section - Compact */}
-        <div className="border border-primary/20 rounded-lg p-3 bg-sidebar/30">
-          <Button 
-            onClick={() => {
-              const recipePrompt = `Show me 3 Malaysian recipes I can make with ${plantInfo?.common_name || 'lettuce'}. Include preparation tips.`;
-              setInput(recipePrompt);
-              setTimeout(() => handleSend(), 100);
-            }}
-            className="w-full h-8 text-xs"
-            variant="outline"
-            disabled={isLoading}
-          >
-            🍽️ Show Recipes
-          </Button>
-        </div>
+        {/* Cooking Dishes Section */}
+        <Card className="border-primary/20">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold text-primary uppercase tracking-wide">
+              Cooking Dishes
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0 space-y-3">
+            <button
+              onClick={() => {
+                const recipePrompt = "Tell me more about Nasi Goreng USA and how to prepare lettuce for it";
+                setInput(recipePrompt);
+                setTimeout(() => handleSend(), 100);
+              }}
+              disabled={isLoading}
+              className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all"
+            >
+              <div className="font-medium text-sm text-foreground">Nasi Goreng USA</div>
+              <div className="text-xs text-muted-foreground mt-1">
+                Wrapped with rice & sambal
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                const recipePrompt = "Tell me more about Yong Tau Foo and how to use lettuce in it";
+                setInput(recipePrompt);
+                setTimeout(() => handleSend(), 100);
+              }}
+              disabled={isLoading}
+              className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all"
+            >
+              <div className="font-medium text-sm text-foreground">Yong Tau Foo</div>
+              <div className="text-xs text-muted-foreground mt-1">
+                Served in clear soup or dry with sauce
+              </div>
+            </button>
+
+            <button
+              onClick={() => {
+                const recipePrompt = "Tell me more about using lettuce as ulam and what to eat with it";
+                setInput(recipePrompt);
+                setTimeout(() => handleSend(), 100);
+              }}
+              disabled={isLoading}
+              className="w-full text-left p-3 rounded-lg bg-sidebar/60 hover:bg-sidebar/80 border border-primary/10 hover:border-primary/20 transition-all"
+            >
+              <div className="font-medium text-sm text-foreground">Ulam Platter</div>
+              <div className="text-xs text-muted-foreground mt-1">
+                Fresh with sambal belacan & ikan bilis
+              </div>
+            </button>
+          </CardContent>
+        </Card>
           </div>
         </ScrollArea>
       </div>
