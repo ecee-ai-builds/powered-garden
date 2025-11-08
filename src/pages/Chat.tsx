@@ -244,8 +244,8 @@ const Chat = () => {
 
           <div className="p-4 border-t border-primary/20 space-y-3">
             {/* Plant Selection Buttons */}
-            <div className="grid grid-cols-3 gap-1.5">
-              {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} variant="outline" className="h-auto py-1 px-2 text-center justify-center disabled:opacity-50 rounded-full font-normal text-[10px] border-border/50 hover:bg-accent hover:border-border transition-colors">
+            <div className="grid grid-cols-5 gap-1.5">
+              {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} variant="outline" className="h-auto py-1 px-2 text-center justify-center disabled:opacity-50 rounded-full font-normal text-[10px] border-border/50 hover:bg-accent hover:border-border transition-colors whitespace-nowrap">
                   {plant.split(' (')[0]}
                 </Button>)}
             </div>
