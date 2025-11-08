@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Send, Loader2, Thermometer, Droplets, TestTube } from "lucide-react";
 import { useSensorContext } from "@/context/SensorContext";
 import { toast } from "@/hooks/use-toast";
-import lettuceLeaf from "@/assets/lettuce-leaf.png";
+import { LettuceLeafIcon } from "@/components/LettuceLeafIcon";
 interface Message {
   role: "user" | "assistant";
   content: string;
@@ -284,7 +284,7 @@ const Chat = () => {
               {/* Plant illustration */}
               <div className="px-4 pt-4 pb-2">
                 <div className="h-28 rounded-lg flex items-center justify-center">
-                  <img src={lettuceLeaf} alt="Butterhead Lettuce" className="h-20 w-20 object-contain brightness-0 saturate-100 invert-[.45] sepia-[1] saturate-[5] hue-rotate-[10deg]" />
+                  <LettuceLeafIcon className="h-20 w-20" />
                 </div>
                 <p className="text-muted-foreground italic mt-2 text-center text-xs">
                   {plantInfo.whimsical_fact}
