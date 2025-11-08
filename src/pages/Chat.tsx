@@ -248,7 +248,7 @@ const Chat = () => {
       </div>
 
       {/* Plant Profile Card - Pokemon-inspired */}
-      <div className="flex-1 flex flex-col justify-center">
+      <div className="flex-1 flex flex-col">
         <Card className="border-2 border-primary/30 bg-gradient-to-br from-sidebar/90 to-sidebar/50 backdrop-blur shadow-lg rounded-2xl overflow-hidden h-fit">
           {!plantInfo ? (
             // Skeleton state
