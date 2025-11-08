@@ -3,22 +3,27 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, Loader2 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Send, Loader2, Thermometer, Droplets, TestTube, Sprout } from "lucide-react";
 import { useSensorContext } from "@/context/SensorContext";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
 
-interface PlantCard {
-  name: string;
-  image?: string;
-  tempRange: string;
-  humidityRange: string;
-  moistureRange: string;
-  phRange: string;
+interface PlantInfo {
+  common_name: string;
+  cabinet_fit: string;
+  cycle_days: string;
+  setpoints: {
+    air_temp_c: { min: number; ideal: [number, number]; max: number };
+    rel_humidity_pct: { ideal: [number, number] };
+    soil_or_solution_ph: { ideal: [number, number] };
+    soil_moisture: { target_pct: [number, number]; hint: string };
+  };
+  notes: string;
 }
 
 const Chat = () => {
@@ -30,7 +35,7 @@ const Chat = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [plantCard, setPlantCard] = useState<PlantCard | null>(null);
+  const [plantInfo, setPlantInfo] = useState<PlantInfo | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data: sensorData } = useSensorContext();
 
@@ -225,34 +230,153 @@ const Chat = () => {
         </Card>
       </div>
 
-      {/* Plant Card Panel */}
-      {plantCard && (
-        <Card className="w-80 border-primary/20">
-          <CardHeader>
-            <CardTitle className="text-primary">{plantCard.name}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="text-sm">
-                <span className="text-muted-foreground">Temperature:</span>
-                <span className="ml-2 text-foreground">{plantCard.tempRange}</span>
+      {/* Plant Info Panel */}
+      <Card className="w-96 border-primary/20 bg-sidebar/50 backdrop-blur">
+        <CardHeader className="border-b border-primary/10">
+          <CardTitle className="text-primary flex items-center gap-2">
+            <Sprout className="h-5 w-5" />
+            Plant Profile
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="pt-6">
+          {!plantInfo ? (
+            // Skeleton state
+            <div className="space-y-6">
+              <div className="flex flex-col items-center gap-4">
+                <Skeleton className="h-40 w-40 rounded-lg" />
+                <Skeleton className="h-6 w-32" />
               </div>
-              <div className="text-sm">
-                <span className="text-muted-foreground">Humidity:</span>
-                <span className="ml-2 text-foreground">{plantCard.humidityRange}</span>
+              
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <Skeleton className="h-5 w-5 rounded" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-8 w-full rounded-md" />
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Skeleton className="h-5 w-5 rounded" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-8 w-full rounded-md" />
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Skeleton className="h-5 w-5 rounded" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-8 w-full rounded-md" />
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Skeleton className="h-5 w-5 rounded" />
+                  <div className="flex-1 space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-8 w-full rounded-md" />
+                  </div>
+                </div>
               </div>
-              <div className="text-sm">
-                <span className="text-muted-foreground">Moisture:</span>
-                <span className="ml-2 text-foreground">{plantCard.moistureRange}</span>
+
+              <Skeleton className="h-20 w-full rounded-md" />
+            </div>
+          ) : (
+            // Plant data
+            <div className="space-y-6">
+              {/* Plant illustration placeholder */}
+              <div className="flex flex-col items-center gap-3 pb-4 border-b border-primary/10">
+                <div className="h-40 w-40 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center bg-sidebar/30">
+                  <Sprout className="h-16 w-16 text-primary/40" />
+                </div>
+                <div className="text-center">
+                  <h3 className="font-semibold text-lg text-foreground">
+                    {plantInfo.common_name}
+                  </h3>
+                  <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
+                    <span className="bg-primary/10 px-2 py-1 rounded">
+                      {plantInfo.cabinet_fit}
+                    </span>
+                    <span className="bg-primary/10 px-2 py-1 rounded">
+                      {plantInfo.cycle_days} days
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="text-sm">
-                <span className="text-muted-foreground">pH:</span>
-                <span className="ml-2 text-foreground">{plantCard.phRange}</span>
+
+              {/* Environmental parameters */}
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Thermometer className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-muted-foreground mb-1">Temperature</p>
+                    <div className="bg-sidebar px-3 py-2 rounded-md">
+                      <p className="text-sm font-medium text-foreground">
+                        {plantInfo.setpoints.air_temp_c.ideal[0]}–{plantInfo.setpoints.air_temp_c.ideal[1]}°C
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Range: {plantInfo.setpoints.air_temp_c.min}–{plantInfo.setpoints.air_temp_c.max}°C
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Droplets className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-muted-foreground mb-1">Humidity</p>
+                    <div className="bg-sidebar px-3 py-2 rounded-md">
+                      <p className="text-sm font-medium text-foreground">
+                        {plantInfo.setpoints.rel_humidity_pct.ideal[0]}–{plantInfo.setpoints.rel_humidity_pct.ideal[1]}%
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <TestTube className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-muted-foreground mb-1">pH Level</p>
+                    <div className="bg-sidebar px-3 py-2 rounded-md">
+                      <p className="text-sm font-medium text-foreground">
+                        {plantInfo.setpoints.soil_or_solution_ph.ideal[0]}–{plantInfo.setpoints.soil_or_solution_ph.ideal[1]}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Droplets className="h-4 w-4 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs text-muted-foreground mb-1">Soil Moisture</p>
+                    <div className="bg-sidebar px-3 py-2 rounded-md">
+                      <p className="text-sm font-medium text-foreground">
+                        {plantInfo.setpoints.soil_moisture.target_pct[0]}–{plantInfo.setpoints.soil_moisture.target_pct[1]}%
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {plantInfo.setpoints.soil_moisture.hint}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div className="bg-primary/5 border border-primary/10 rounded-md p-3">
+                <p className="text-xs text-muted-foreground mb-1">Growing Notes</p>
+                <p className="text-sm text-foreground">{plantInfo.notes}</p>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };
