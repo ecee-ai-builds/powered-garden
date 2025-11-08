@@ -41,8 +41,22 @@ interface PlantInfo {
 const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([{
     role: "assistant",
-    content: "Hi! I'm your growing assistant 🌱 Let me help you succeed with your cabinet garden. Tell me what you'd like to grow, or ask me anything about your plants!"
+    content: "Let's grow something together 🌱 What will you be interested in growing today?"
   }]);
+  const [showPlantOptions, setShowPlantOptions] = useState(true);
+  
+  const mvpPlants = [
+    "Basil (Sweet basil)",
+    "Mint (Pudina)",
+    "Pak-choy (Sawi)",
+    "Kailan (Chinese kale)",
+    "Bayam (Amaranth)",
+    "Lettuce (Butterhead)",
+    "Coriander (Ketumbar)",
+    "Chives (Daun kucai)",
+    "Parsley (Daun pasli)",
+    "Dwarf Chilli (Cili kecil)"
+  ];
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [plantInfo, setPlantInfo] = useState<PlantInfo | null>({
@@ -80,8 +94,16 @@ const Chat = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
+  const handlePlantSelect = (plant: string) => {
+    setShowPlantOptions(false);
+    const plantMessage = `I want to grow ${plant}`;
+    setInput(plantMessage);
+    setTimeout(() => handleSend(), 100);
+  };
+
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
+    setShowPlantOptions(false);
     const userMessage: Message = {
       role: "user",
       content: input
@@ -217,6 +239,25 @@ const Chat = () => {
                     <p className="text-sm whitespace-pre-wrap font-thin">{msg.content}</p>
                   </div>
                 </div>)}
+              
+              {showPlantOptions && messages.length === 1 && <div className="flex justify-start">
+                  <div className="max-w-[90%] space-y-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      {mvpPlants.map((plant) => (
+                        <Button
+                          key={plant}
+                          variant="outline"
+                          onClick={() => handlePlantSelect(plant)}
+                          disabled={isLoading}
+                          className="h-auto py-3 px-4 text-left justify-start hover:bg-primary/10 hover:border-primary/30"
+                        >
+                          <span className="text-sm font-medium">{plant}</span>
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </div>}
+              
               {isLoading && <div className="flex justify-start">
                   <div className="bg-muted rounded-lg px-4 py-3">
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
