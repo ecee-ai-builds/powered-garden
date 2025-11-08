@@ -1,7 +1,6 @@
 import { Thermometer, Droplets } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState, useEffect } from "react";
-
 const Command = () => {
   const [temperature, setTemperature] = useState<number>(22.5);
   const [humidity, setHumidity] = useState<number>(65.3);
@@ -9,22 +8,15 @@ const Command = () => {
   // Simulate live data updates
   useEffect(() => {
     const interval = setInterval(() => {
-      setTemperature((prev) => +(prev + (Math.random() - 0.5) * 0.5).toFixed(1));
-      setHumidity((prev) => +(prev + (Math.random() - 0.5) * 2).toFixed(1));
+      setTemperature(prev => +(prev + (Math.random() - 0.5) * 0.5).toFixed(1));
+      setHumidity(prev => +(prev + (Math.random() - 0.5) * 2).toFixed(1));
     }, 3000);
-
     return () => clearInterval(interval);
   }, []);
-
-  return (
-    <div className="min-h-screen p-6 md:p-8 scanline">
+  return <div className="min-h-screen p-6 md:p-8 scanline">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-primary cyber-glow mb-2 tracking-wider">
-          &gt; COMMAND_CENTER
-        </h1>
-        <p className="text-muted-foreground tracking-wide">
-          Real-time environmental monitoring
-        </p>
+        <h1 className="text-3xl md:text-4xl font-bold text-primary cyber-glow mb-2 tracking-wider">ENVIRONMENT CONTROL</h1>
+        <p className="text-muted-foreground tracking-wide">Real-time monitoring for conditions of your plant cabinet</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
@@ -90,8 +82,6 @@ const Command = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Command;

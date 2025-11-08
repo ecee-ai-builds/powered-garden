@@ -8,11 +8,8 @@ import { AppSidebar } from "@/components/AppSidebar";
 import Command from "./pages/Command";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
-
 const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -25,7 +22,7 @@ const App = () => (
                 <SidebarTrigger className="text-primary hover:bg-primary/10" />
                 <div className="ml-4 flex items-center gap-2">
                   <div className="h-2 w-2 bg-success rounded-full animate-pulse"></div>
-                  <span className="text-xs text-primary/70 tracking-wider">SYSTEM_ONLINE</span>
+                  <span className="text-xs text-primary/70 tracking-wider">SYSTEM STATUS</span>
                 </div>
               </header>
               <main className="flex-1">
@@ -41,7 +38,5 @@ const App = () => (
         </SidebarProvider>
       </BrowserRouter>
     </TooltipProvider>
-  </QueryClientProvider>
-);
-
+  </QueryClientProvider>;
 export default App;
