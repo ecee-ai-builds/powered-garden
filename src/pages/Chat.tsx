@@ -238,14 +238,16 @@ const Chat = () => {
       </div>
 
       {/* Plant Profile Card - Pokemon-inspired */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-hidden">
         {/* Spacer to align with chat header */}
-        <div className="mb-4">
+        <div className="mb-4 flex-shrink-0">
           <div className="text-2xl opacity-0 pointer-events-none">SPACER</div>
           <p className="text-xs opacity-0 mt-1">spacer</p>
         </div>
         
-        <Card className="border-2 border-primary/30 bg-gradient-to-br from-sidebar/90 to-sidebar/50 backdrop-blur shadow-lg rounded-2xl overflow-hidden h-fit">
+        <ScrollArea className="flex-1">
+          <div className="pr-4 space-y-3">
+        <Card className="border-2 border-primary/30 bg-gradient-to-br from-sidebar/90 to-sidebar/50 backdrop-blur shadow-lg rounded-2xl overflow-hidden">
           {!plantInfo ?
         // Skeleton state
         <CardContent className="p-4 space-y-3">
@@ -364,32 +366,23 @@ const Chat = () => {
             </CardContent>}
         </Card>
 
-        {/* Recipes Section */}
-        <Card className="mt-4 border-primary/20 hover:border-primary/40 transition-colors">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-semibold text-primary flex items-center gap-2">
-              <span className="text-lg">🍽️</span>
-              RECIPES & COOKING IDEAS
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pt-0">
-            <p className="text-xs text-muted-foreground mb-3">
-              Get Malaysian-inspired recipes and cooking tips for {plantInfo?.common_name || 'your plant'}
-            </p>
-            <Button 
-              onClick={() => {
-                const recipePrompt = `Show me 3 Malaysian recipes I can make with ${plantInfo?.common_name || 'lettuce'}. Include preparation tips.`;
-                setInput(recipePrompt);
-                setTimeout(() => handleSend(), 100);
-              }}
-              className="w-full"
-              variant="outline"
-              disabled={isLoading}
-            >
-              Show Me Recipes
-            </Button>
-          </CardContent>
-        </Card>
+        {/* Recipes Section - Compact */}
+        <div className="border border-primary/20 rounded-lg p-3 bg-sidebar/30">
+          <Button 
+            onClick={() => {
+              const recipePrompt = `Show me 3 Malaysian recipes I can make with ${plantInfo?.common_name || 'lettuce'}. Include preparation tips.`;
+              setInput(recipePrompt);
+              setTimeout(() => handleSend(), 100);
+            }}
+            className="w-full h-8 text-xs"
+            variant="outline"
+            disabled={isLoading}
+          >
+            🍽️ Show Recipes
+          </Button>
+        </div>
+          </div>
+        </ScrollArea>
       </div>
     </div>;
 };
