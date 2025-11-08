@@ -43,19 +43,7 @@ const Chat = () => {
     role: "assistant",
     content: "Let's grow something together 🌱 What will you be interested in growing today?"
   }]);
-  
-  const mvpPlants = [
-    "Basil (Sweet basil)",
-    "Mint (Pudina)",
-    "Pak-choy (Sawi)",
-    "Kailan (Chinese kale)",
-    "Bayam (Amaranth)",
-    "Lettuce (Butterhead)",
-    "Coriander (Ketumbar)",
-    "Chives (Daun kucai)",
-    "Parsley (Daun pasli)",
-    "Dwarf Chilli (Cili kecil)"
-  ];
+  const mvpPlants = ["Basil (Sweet basil)", "Mint (Pudina)", "Pak-choy (Sawi)", "Kailan (Chinese kale)", "Bayam (Amaranth)", "Lettuce (Butterhead)", "Coriander (Ketumbar)", "Chives (Daun kucai)", "Parsley (Daun pasli)", "Dwarf Chilli (Cili kecil)"];
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [plantInfo, setPlantInfo] = useState<PlantInfo | null>({
@@ -101,11 +89,10 @@ const Chat = () => {
     };
     setMessages(prev => [...prev, userMessage]);
     setIsLoading(true);
-    
+
     // Send to API
     sendToAPI([...messages, userMessage]);
   };
-
   const sendToAPI = async (messageHistory: Message[]) => {
     try {
       const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
@@ -209,7 +196,6 @@ const Chat = () => {
       setIsLoading(false);
     }
   };
-
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
     const userMessage: Message = {
@@ -221,7 +207,6 @@ const Chat = () => {
     setIsLoading(true);
     await sendToAPI([...messages, userMessage]);
   };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -252,16 +237,9 @@ const Chat = () => {
               {messages.length === 1 && <div className="flex justify-start">
                   <div className="max-w-[90%] space-y-3">
                     <div className="grid grid-cols-2 gap-2">
-                      {mvpPlants.map((plant) => (
-                        <Button
-                          key={plant}
-                          onClick={() => handlePlantSelect(plant)}
-                          disabled={isLoading}
-                          className="h-auto py-2 px-4 text-left justify-center bg-primary text-white hover:bg-primary/90 hover:text-white disabled:opacity-50 rounded-full font-medium text-sm"
-                        >
+                      {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} className="h-auto py-2 px-4 text-left justify-center disabled:opacity-50 rounded-full font-light text-xs text-white bg-slate-800 hover:bg-slate-700">
                           {plant}
-                        </Button>
-                      ))}
+                        </Button>)}
                     </div>
                   </div>
                 </div>}
