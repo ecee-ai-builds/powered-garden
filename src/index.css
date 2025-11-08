@@ -8,84 +8,84 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Cyberpunk color palette */
-    --background: 240 10% 5%;
-    --foreground: 180 100% 85%;
+    /* Tactical Military Ops color palette */
+    --background: 0 0% 7%;
+    --foreground: 0 0% 95%;
 
-    --card: 240 8% 8%;
-    --card-foreground: 180 100% 85%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
 
-    --popover: 240 8% 8%;
-    --popover-foreground: 180 100% 85%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 180 100% 50%;
-    --primary-foreground: 240 10% 5%;
+    --primary: 24 85% 53%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 280 100% 50%;
-    --secondary-foreground: 180 100% 85%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 95%;
 
-    --muted: 240 8% 15%;
-    --muted-foreground: 180 50% 60%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 330 100% 60%;
-    --accent-foreground: 240 10% 5%;
+    --accent: 24 85% 53%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 180 100% 85%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --success: 150 100% 50%;
-    --success-foreground: 240 10% 5%;
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
 
-    --border: 180 100% 25%;
-    --input: 180 50% 15%;
-    --ring: 180 100% 50%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 24 85% 53%;
 
     --radius: 0.25rem;
 
-    /* Cyberpunk glow effects */
-    --glow-primary: 0 0 20px hsl(180 100% 50% / 0.5);
-    --glow-secondary: 0 0 20px hsl(280 100% 50% / 0.5);
-    --glow-accent: 0 0 20px hsl(330 100% 60% / 0.5);
-    --glow-success: 0 0 20px hsl(150 100% 50% / 0.5);
+    /* Tactical glow effects */
+    --glow-primary: 0 0 20px hsl(24 85% 53% / 0.4);
+    --glow-secondary: 0 0 20px hsl(0 0% 40% / 0.3);
+    --glow-accent: 0 0 20px hsl(24 85% 53% / 0.4);
+    --glow-success: 0 0 20px hsl(142 76% 36% / 0.4);
 
-    --sidebar-background: 240 10% 3%;
-    --sidebar-foreground: 180 100% 85%;
-    --sidebar-primary: 180 100% 50%;
-    --sidebar-primary-foreground: 240 10% 5%;
-    --sidebar-accent: 240 8% 10%;
-    --sidebar-accent-foreground: 180 100% 85%;
-    --sidebar-border: 180 100% 25%;
-    --sidebar-ring: 180 100% 50%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 75%;
+    --sidebar-primary: 24 85% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 24 85% 53%;
   }
 
   .dark {
-    --background: 240 10% 5%;
-    --foreground: 180 100% 85%;
-    --card: 240 8% 8%;
-    --card-foreground: 180 100% 85%;
-    --popover: 240 8% 8%;
-    --popover-foreground: 180 100% 85%;
-    --primary: 180 100% 50%;
-    --primary-foreground: 240 10% 5%;
-    --secondary: 280 100% 50%;
-    --secondary-foreground: 180 100% 85%;
-    --muted: 240 8% 15%;
-    --muted-foreground: 180 50% 60%;
-    --accent: 330 100% 60%;
-    --accent-foreground: 240 10% 5%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 180 100% 85%;
-    --border: 180 100% 25%;
-    --input: 180 50% 15%;
-    --ring: 180 100% 50%;
-    --sidebar-background: 240 10% 3%;
-    --sidebar-foreground: 180 100% 85%;
-    --sidebar-primary: 180 100% 50%;
-    --sidebar-primary-foreground: 240 10% 5%;
-    --sidebar-accent: 240 8% 10%;
-    --sidebar-accent-foreground: 180 100% 85%;
-    --sidebar-border: 180 100% 25%;
-    --sidebar-ring: 180 100% 50%;
+    --background: 0 0% 7%;
+    --foreground: 0 0% 95%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 24 85% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 0 0% 95%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 24 85% 53%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 24 85% 53%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 75%;
+    --sidebar-primary: 24 85% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 24 85% 53%;
   }
 }
 
@@ -101,19 +101,19 @@ All colors MUST be HSL.
         0deg,
         transparent,
         transparent 2px,
-        hsl(180 100% 50% / 0.03) 2px,
-        hsl(180 100% 50% / 0.03) 4px
+        hsl(0 0% 20% / 0.03) 2px,
+        hsl(0 0% 20% / 0.03) 4px
       );
   }
 }
 
 @layer components {
   .cyber-card {
-    @apply bg-card border-2 border-primary/30 rounded-sm shadow-[0_0_20px_rgba(0,255,255,0.2)] transition-all duration-300;
+    @apply bg-card border-2 border-primary/30 rounded-sm shadow-[0_0_20px_rgba(230,126,34,0.2)] transition-all duration-300;
   }
   
   .cyber-card:hover {
-    @apply border-primary shadow-[0_0_30px_rgba(0,255,255,0.4)];
+    @apply border-primary shadow-[0_0_30px_rgba(230,126,34,0.4)];
   }
 
   .cyber-glow {
@@ -132,7 +132,7 @@ All colors MUST be HSL.
     background: linear-gradient(
       180deg,
       transparent 0%,
-      hsl(180 100% 50% / 0.1) 50%,
+      hsl(24 85% 53% / 0.1) 50%,
       transparent 100%
     );
     animation: scan 8s linear infinite;

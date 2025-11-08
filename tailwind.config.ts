@@ -63,7 +63,7 @@ export default {
         },
       },
       fontFamily: {
-        mono: ['"Share Tech Mono"', 'monospace'],
+        mono: ['"Rajdhani"', 'monospace'],
       },
       borderRadius: {
         lg: "var(--radius)",
