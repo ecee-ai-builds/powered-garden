@@ -57,7 +57,7 @@ const Command = () => {
         {/* Humidity Card */}
         <Card className="cyber-card">
           <CardHeader className="border-b border-primary/20">
-            <CardTitle className="flex items-center gap-3 text-foreground">
+            <CardTitle className="flex items-center gap-3 text-primary">
               <Droplets className="h-6 w-6 cyber-glow" />
               <span className="tracking-wider">HUMIDITY</span>
             </CardTitle>
@@ -65,7 +65,7 @@ const Command = () => {
           <CardContent className="pt-6">
             <div className="space-y-4">
               <div className="text-center">
-                <div className="text-5xl md:text-6xl font-bold text-foreground cyber-glow">
+                <div className="text-5xl md:text-6xl font-bold text-primary cyber-glow">
                   {humidity}%
                 </div>
                 <div className="text-sm text-muted-foreground mt-2 tracking-wide">
