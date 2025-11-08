@@ -7,12 +7,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Send, Loader2, Thermometer, Droplets, TestTube, Sprout } from "lucide-react";
 import { useSensorContext } from "@/context/SensorContext";
 import { toast } from "@/hooks/use-toast";
-
 interface Message {
   role: "user" | "assistant";
   content: string;
 }
-
 interface PlantInfo {
   common_name: string;
   name_malay: string;
@@ -20,22 +18,30 @@ interface PlantInfo {
   cabinet_fit: string;
   cycle_days: string;
   setpoints: {
-    air_temp_c: { min: number; ideal: [number, number]; max: number };
-    rel_humidity_pct: { ideal: [number, number] };
-    soil_or_solution_ph: { ideal: [number, number] };
-    soil_moisture: { target_pct: [number, number]; hint: string };
+    air_temp_c: {
+      min: number;
+      ideal: [number, number];
+      max: number;
+    };
+    rel_humidity_pct: {
+      ideal: [number, number];
+    };
+    soil_or_solution_ph: {
+      ideal: [number, number];
+    };
+    soil_moisture: {
+      target_pct: [number, number];
+      hint: string;
+    };
   };
   notes: string;
   whimsical_fact: string;
 }
-
 const Chat = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: "Hi! I'm your growing assistant 🌱 Let me help you succeed with your cabinet garden. Tell me what you'd like to grow, or ask me anything about your plants!"
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([{
+    role: "assistant",
+    content: "Hi! I'm your growing assistant 🌱 Let me help you succeed with your cabinet garden. Tell me what you'd like to grow, or ask me anything about your plants!"
+  }]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [plantInfo, setPlantInfo] = useState<PlantInfo | null>({
@@ -45,38 +51,50 @@ const Chat = () => {
     cabinet_fit: "compact",
     cycle_days: "35–45",
     setpoints: {
-      air_temp_c: { min: 18, ideal: [18, 24], max: 29 },
-      rel_humidity_pct: { ideal: [50, 70] },
-      soil_or_solution_ph: { ideal: [5.5, 6.5] },
-      soil_moisture: { target_pct: [45, 60], hint: "avoid over-wet roots" }
+      air_temp_c: {
+        min: 18,
+        ideal: [18, 24],
+        max: 29
+      },
+      rel_humidity_pct: {
+        ideal: [50, 70]
+      },
+      soil_or_solution_ph: {
+        ideal: [5.5, 6.5]
+      },
+      soil_moisture: {
+        target_pct: [45, 60],
+        hint: "avoid over-wet roots"
+      }
     },
     notes: "Cooler-loving; adjust airflow to avoid tip burn.",
     whimsical_fact: "Perfect crispy cups for wrapping ayam percik or sambal petai, butterhead lettuce brings a cooling crunch to balance Malaysia's fiery flavours!"
   });
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { data: sensorData } = useSensorContext();
-
+  const {
+    data: sensorData
+  } = useSensorContext();
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
-
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
-
-    const userMessage: Message = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const userMessage: Message = {
+      role: "user",
+      content: input
+    };
+    setMessages(prev => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
-
     try {
       const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
       const response = await fetch(CHAT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`
         },
         body: JSON.stringify({
           messages: [...messages, userMessage],
@@ -85,9 +103,8 @@ const Chat = () => {
             humidity: sensorData.humidity_percent,
             timestamp: sensorData.timestamp
           } : null
-        }),
+        })
       });
-
       if (!response.ok) {
         if (response.status === 429) {
           toast({
@@ -107,48 +124,49 @@ const Chat = () => {
         }
         throw new Error("Failed to get response");
       }
-
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
       let assistantContent = "";
       let textBuffer = "";
       let streamDone = false;
-
       if (!reader) throw new Error("No response body");
-
       const upsertAssistant = (chunk: string) => {
         assistantContent += chunk;
-        setMessages((prev) => {
+        setMessages(prev => {
           const last = prev[prev.length - 1];
           if (last?.role === "assistant") {
-            return prev.map((m, i) =>
-              i === prev.length - 1 ? { ...m, content: assistantContent } : m
-            );
+            return prev.map((m, i) => i === prev.length - 1 ? {
+              ...m,
+              content: assistantContent
+            } : m);
           }
-          return [...prev, { role: "assistant", content: assistantContent }];
+          return [...prev, {
+            role: "assistant",
+            content: assistantContent
+          }];
         });
       };
-
       while (!streamDone) {
-        const { done, value } = await reader.read();
+        const {
+          done,
+          value
+        } = await reader.read();
         if (done) break;
-        textBuffer += decoder.decode(value, { stream: true });
-
+        textBuffer += decoder.decode(value, {
+          stream: true
+        });
         let newlineIndex: number;
         while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
           let line = textBuffer.slice(0, newlineIndex);
           textBuffer = textBuffer.slice(newlineIndex + 1);
-
           if (line.endsWith("\r")) line = line.slice(0, -1);
           if (line.startsWith(":") || line.trim() === "") continue;
           if (!line.startsWith("data: ")) continue;
-
           const jsonStr = line.slice(6).trim();
           if (jsonStr === "[DONE]") {
             streamDone = true;
             break;
           }
-
           try {
             const parsed = JSON.parse(jsonStr);
             const content = parsed.choices?.[0]?.delta?.content;
@@ -170,16 +188,13 @@ const Chat = () => {
       setIsLoading(false);
     }
   };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSend();
     }
   };
-
-  return (
-    <div className="h-[calc(100vh-4rem)] p-6 flex gap-6">
+  return <div className="h-[calc(100vh-4rem)] p-6 flex gap-6">
       {/* Main Chat Area */}
       <div className="flex-[2] flex flex-col">
         <div className="mb-4">
@@ -194,53 +209,24 @@ const Chat = () => {
         <Card className="flex-1 flex flex-col border-primary/20">
           <ScrollArea className="flex-1 p-6" ref={scrollRef}>
             <div className="space-y-4">
-              {messages.map((msg, idx) => (
-                <div
-                  key={idx}
-                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-lg px-4 py-3 ${
-                      msg.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted text-foreground"
-                    }`}
-                  >
+              {messages.map((msg, idx) => <div key={idx} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[80%] rounded-lg px-4 py-3 ${msg.role === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-foreground"}`}>
                     <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                   </div>
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex justify-start">
+                </div>)}
+              {isLoading && <div className="flex justify-start">
                   <div className="bg-muted rounded-lg px-4 py-3">
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
                   </div>
-                </div>
-              )}
+                </div>}
             </div>
           </ScrollArea>
 
           <div className="p-4 border-t border-primary/20">
             <div className="flex gap-2">
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask about plants, settings, or your sensor data..."
-                className="min-h-[60px] resize-none"
-                disabled={isLoading}
-              />
-              <Button
-                onClick={handleSend}
-                disabled={!input.trim() || isLoading}
-                size="icon"
-                className="h-[60px] w-[60px]"
-              >
-                {isLoading ? (
-                  <Loader2 className="h-5 w-5 animate-spin" />
-                ) : (
-                  <Send className="h-5 w-5" />
-                )}
+              <Textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown} placeholder="Ask about plants, settings, or your sensor data..." className="min-h-[60px] resize-none" disabled={isLoading} />
+              <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="icon" className="h-[60px] w-[60px]">
+                {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
               </Button>
             </div>
           </div>
@@ -256,9 +242,9 @@ const Chat = () => {
         </div>
         
         <Card className="border-2 border-primary/30 bg-gradient-to-br from-sidebar/90 to-sidebar/50 backdrop-blur shadow-lg rounded-2xl overflow-hidden h-fit">
-          {!plantInfo ? (
-            // Skeleton state
-            <CardContent className="p-4 space-y-3">
+          {!plantInfo ?
+        // Skeleton state
+        <CardContent className="p-4 space-y-3">
               <div className="flex justify-between items-start mb-2">
                 <Skeleton className="h-5 w-24" />
                 <Skeleton className="h-5 w-16" />
@@ -271,9 +257,7 @@ const Chat = () => {
                 <Skeleton className="h-8 w-full rounded" />
               </div>
               <Skeleton className="h-12 w-full rounded" />
-            </CardContent>
-          ) : (
-            <CardContent className="p-0">
+            </CardContent> : <CardContent className="p-0">
               {/* Header - Pokemon card style */}
               <div className="bg-gradient-to-r from-primary/20 to-primary/10 px-4 py-2 border-b border-primary/20">
                 <div className="mb-2">
@@ -301,7 +285,7 @@ const Chat = () => {
                 <div className="h-28 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center bg-sidebar/40">
                   <Sprout className="h-12 w-12 text-primary/40" />
                 </div>
-                <p className="text-xs text-muted-foreground italic mt-2 text-center">
+                <p className="text-muted-foreground italic mt-2 text-center text-xs">
                   {plantInfo.whimsical_fact}
                 </p>
               </div>
@@ -368,12 +352,9 @@ const Chat = () => {
                   {plantInfo.notes}
                 </p>
               </div>
-            </CardContent>
-          )}
+            </CardContent>}
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Chat;
