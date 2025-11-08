@@ -283,8 +283,8 @@ const Chat = () => {
 
               {/* Plant illustration */}
               <div className="px-4 pt-4 pb-2">
-                <div className="h-28 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center bg-sidebar/40">
-                  <img src={lettuceLeaf} alt="Butterhead Lettuce" className="h-20 w-20 object-contain" />
+                <div className="h-28 rounded-lg flex items-center justify-center">
+                  <img src={lettuceLeaf} alt="Butterhead Lettuce" className="h-20 w-20 object-contain brightness-0 saturate-100 invert-[.45] sepia-[1] saturate-[5] hue-rotate-[10deg]" />
                 </div>
                 <p className="text-muted-foreground italic mt-2 text-center text-xs">
                   {plantInfo.whimsical_fact}
