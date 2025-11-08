@@ -51,7 +51,7 @@ const Chat = () => {
       soil_moisture: { target_pct: [45, 60], hint: "avoid over-wet roots" }
     },
     notes: "Cooler-loving; adjust airflow to avoid tip burn.",
-    whimsical_fact: "Ancient Romans believed lettuce had magical sleep-inducing powers and served it at the end of meals as a natural dessert lullaby!"
+    whimsical_fact: "Perfect crispy cups for wrapping ayam percik or sambal petai, butterhead lettuce brings a cooling crunch to balance Malaysia's fiery flavours!"
   });
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data: sensorData } = useSensorContext();
