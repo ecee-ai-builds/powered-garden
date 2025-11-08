@@ -35,7 +35,18 @@ const Chat = () => {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [plantInfo, setPlantInfo] = useState<PlantInfo | null>(null);
+  const [plantInfo, setPlantInfo] = useState<PlantInfo | null>({
+    common_name: "Lettuce (Butterhead)",
+    cabinet_fit: "compact",
+    cycle_days: "35–45",
+    setpoints: {
+      air_temp_c: { min: 18, ideal: [18, 24], max: 29 },
+      rel_humidity_pct: { ideal: [50, 70] },
+      soil_or_solution_ph: { ideal: [5.5, 6.5] },
+      soil_moisture: { target_pct: [45, 60], hint: "avoid over-wet roots" }
+    },
+    notes: "Cooler-loving; adjust airflow to avoid tip burn."
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data: sensorData } = useSensorContext();
 
