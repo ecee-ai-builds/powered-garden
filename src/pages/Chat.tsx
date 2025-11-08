@@ -26,6 +26,7 @@ interface PlantInfo {
     soil_moisture: { target_pct: [number, number]; hint: string };
   };
   notes: string;
+  whimsical_fact: string;
 }
 
 const Chat = () => {
@@ -49,7 +50,8 @@ const Chat = () => {
       soil_or_solution_ph: { ideal: [5.5, 6.5] },
       soil_moisture: { target_pct: [45, 60], hint: "avoid over-wet roots" }
     },
-    notes: "Cooler-loving; adjust airflow to avoid tip burn."
+    notes: "Cooler-loving; adjust airflow to avoid tip burn.",
+    whimsical_fact: "Ancient Romans believed lettuce had magical sleep-inducing powers and served it at the end of meals as a natural dessert lullaby!"
   });
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data: sensorData } = useSensorContext();
@@ -293,6 +295,9 @@ const Chat = () => {
                 <div className="h-28 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center bg-sidebar/40">
                   <Sprout className="h-12 w-12 text-primary/40" />
                 </div>
+                <p className="text-xs text-muted-foreground italic mt-2 text-center">
+                  {plantInfo.whimsical_fact}
+                </p>
               </div>
 
               {/* Stats section - compact */}
