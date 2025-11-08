@@ -263,10 +263,10 @@ const Chat = () => {
           ) : (
             <CardContent className="p-0">
               {/* Header - Pokemon card style */}
-              <div className="bg-gradient-to-r from-primary/20 to-primary/10 px-4 py-2 flex justify-between items-center border-b border-primary/20">
-                <div className="flex items-center gap-2">
+              <div className="bg-gradient-to-r from-primary/20 to-primary/10 px-4 py-2 border-b border-primary/20">
+                <div className="flex items-center gap-2 mb-2">
                   <Sprout className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-bold text-primary uppercase tracking-wide">
+                  <span className="text-sm font-bold text-primary uppercase tracking-wide flex-1">
                     {plantInfo.common_name}
                   </span>
                 </div>
