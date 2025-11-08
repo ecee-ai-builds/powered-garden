@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import Command from "./pages/Command";
+import Chat from "./pages/Chat";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { SensorProvider, useSensorContext } from "@/context/SensorContext";
@@ -105,6 +106,7 @@ const App = () => <QueryClientProvider client={queryClient}>
               <main className="flex-1">
                 <Routes>
                   <Route path="/" element={<Command />} />
+                  <Route path="/chat" element={<Chat />} />
                   <Route path="/settings" element={<Settings />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />

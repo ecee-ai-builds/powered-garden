@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
     base: "./",
   server: {
     host: "::",
-      port: Number(process.env.PORT) || 5173,
+    port: 8080,
   },
     plugins: [react(), mode === "development" && componentTagger()].filter(
       Boolean
@@ -25,8 +25,8 @@ export default defineConfig(({ mode }) => {
     },
   },
     ...(mode === "development" && {
-      configureServer(server) {
-        server.middlewares.use("/latest.json", (_req, res) => {
+      configureServer(server: any) {
+        server.middlewares.use("/latest.json", (_req: any, res: any) => {
           fs.readFile(sensorFile, "utf8", (err, contents) => {
             if (err) {
               res.statusCode = 503;

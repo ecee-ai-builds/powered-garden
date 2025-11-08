@@ -1,4 +1,4 @@
-import { Terminal, Settings } from "lucide-react";
+import { Terminal, Settings, MessageSquare } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
@@ -6,6 +6,10 @@ const items = [{
   title: "Command",
   url: "/",
   icon: Terminal
+}, {
+  title: "Chat",
+  url: "/chat",
+  icon: MessageSquare
 }, {
   title: "Settings",
   url: "/settings",
