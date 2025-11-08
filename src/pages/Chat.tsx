@@ -43,7 +43,6 @@ const Chat = () => {
     role: "assistant",
     content: "Let's grow something together 🌱 What will you be interested in growing today?"
   }]);
-  const [showPlantOptions, setShowPlantOptions] = useState(true);
   
   const mvpPlants = [
     "Basil (Sweet basil)",
@@ -101,7 +100,6 @@ const Chat = () => {
       content: plantMessage
     };
     setMessages(prev => [...prev, userMessage]);
-    setShowPlantOptions(false);
     setIsLoading(true);
     
     // Send to API
@@ -214,7 +212,6 @@ const Chat = () => {
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
-    setShowPlantOptions(false);
     const userMessage: Message = {
       role: "user",
       content: input
@@ -252,16 +249,16 @@ const Chat = () => {
                   </div>
                 </div>)}
               
-              {showPlantOptions && messages.length === 1 && <div className="flex justify-start">
+              {messages.length === 1 && <div className="flex justify-start">
                   <div className="max-w-[90%] space-y-3">
                     <div className="grid grid-cols-2 gap-2">
                       {mvpPlants.map((plant) => (
                         <Button
                           key={plant}
-                          variant="outline"
+                          variant="ghost"
                           onClick={() => handlePlantSelect(plant)}
                           disabled={isLoading}
-                          className="h-auto py-3 px-4 text-left justify-start hover:bg-primary/10 hover:border-primary/30"
+                          className="h-auto py-3 px-4 text-left justify-start border border-white/40 text-white hover:bg-white/10 hover:text-white hover:border-white/60 disabled:opacity-50"
                         >
                           <span className="text-sm font-medium">{plant}</span>
                         </Button>
