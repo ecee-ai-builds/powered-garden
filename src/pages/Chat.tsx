@@ -175,7 +175,7 @@ const Chat = () => {
   return (
     <div className="h-[calc(100vh-4rem)] p-6 flex gap-6">
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-[2] flex flex-col">
         <div className="mb-4">
           <h1 className="text-2xl font-bold text-primary tracking-wider">
             GROW ASSISTANT
@@ -241,153 +241,118 @@ const Chat = () => {
         </Card>
       </div>
 
-      {/* Plant Info Panel */}
-      <Card className="w-96 border-primary/20 bg-sidebar/50 backdrop-blur">
-        <CardHeader className="border-b border-primary/10">
-          <CardTitle className="text-primary flex items-center gap-2">
-            <Sprout className="h-5 w-5" />
-            Plant Profile
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="pt-6">
+      {/* Plant Profile Card - Pokemon-inspired */}
+      <div className="flex-1 flex flex-col">
+        <Card className="border-2 border-primary/30 bg-gradient-to-br from-sidebar/90 to-sidebar/50 backdrop-blur shadow-lg rounded-2xl overflow-hidden h-fit">
           {!plantInfo ? (
             // Skeleton state
-            <div className="space-y-6">
-              <div className="flex flex-col items-center gap-4">
-                <Skeleton className="h-40 w-40 rounded-lg" />
-                <Skeleton className="h-6 w-32" />
+            <CardContent className="p-4 space-y-3">
+              <div className="flex justify-between items-start mb-2">
+                <Skeleton className="h-5 w-24" />
+                <Skeleton className="h-5 w-16" />
               </div>
-              
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <Skeleton className="h-5 w-5 rounded" />
-                  <div className="flex-1 space-y-2">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-8 w-full rounded-md" />
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Skeleton className="h-5 w-5 rounded" />
-                  <div className="flex-1 space-y-2">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-8 w-full rounded-md" />
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Skeleton className="h-5 w-5 rounded" />
-                  <div className="flex-1 space-y-2">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-8 w-full rounded-md" />
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Skeleton className="h-5 w-5 rounded" />
-                  <div className="flex-1 space-y-2">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-8 w-full rounded-md" />
-                  </div>
-                </div>
+              <Skeleton className="h-32 w-full rounded-lg" />
+              <div className="space-y-2">
+                <Skeleton className="h-8 w-full rounded" />
+                <Skeleton className="h-8 w-full rounded" />
+                <Skeleton className="h-8 w-full rounded" />
+                <Skeleton className="h-8 w-full rounded" />
               </div>
-
-              <Skeleton className="h-20 w-full rounded-md" />
-            </div>
+              <Skeleton className="h-12 w-full rounded" />
+            </CardContent>
           ) : (
-            // Plant data
-            <div className="space-y-6">
-              {/* Plant illustration placeholder */}
-              <div className="flex flex-col items-center gap-3 pb-4 border-b border-primary/10">
-                <div className="h-40 w-40 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center bg-sidebar/30">
-                  <Sprout className="h-16 w-16 text-primary/40" />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-semibold text-lg text-foreground">
+            <CardContent className="p-0">
+              {/* Header - Pokemon card style */}
+              <div className="bg-gradient-to-r from-primary/20 to-primary/10 px-4 py-2 flex justify-between items-center border-b border-primary/20">
+                <div className="flex items-center gap-2">
+                  <Sprout className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-bold text-primary uppercase tracking-wide">
                     {plantInfo.common_name}
-                  </h3>
-                  <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
-                    <span className="bg-primary/10 px-2 py-1 rounded">
-                      {plantInfo.cabinet_fit}
+                  </span>
+                </div>
+                <div className="flex gap-2 text-xs">
+                  <span className="bg-primary/20 px-2 py-0.5 rounded text-primary font-medium">
+                    {plantInfo.cabinet_fit}
+                  </span>
+                  <span className="bg-primary/20 px-2 py-0.5 rounded text-primary font-medium">
+                    {plantInfo.cycle_days}d
+                  </span>
+                </div>
+              </div>
+
+              {/* Plant illustration */}
+              <div className="px-4 pt-4 pb-2">
+                <div className="h-28 rounded-lg border-2 border-dashed border-primary/30 flex items-center justify-center bg-sidebar/40">
+                  <Sprout className="h-12 w-12 text-primary/40" />
+                </div>
+              </div>
+
+              {/* Stats section - compact */}
+              <div className="px-4 pb-4 space-y-2">
+                {/* Temperature */}
+                <div className="bg-sidebar/60 rounded-lg px-3 py-2 border border-primary/10">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Thermometer className="h-3.5 w-3.5 text-primary" />
+                      <span className="text-xs font-medium text-muted-foreground">Temp</span>
+                    </div>
+                    <span className="text-sm font-bold text-foreground">
+                      {plantInfo.setpoints.air_temp_c.ideal[0]}–{plantInfo.setpoints.air_temp_c.ideal[1]}°C
                     </span>
-                    <span className="bg-primary/10 px-2 py-1 rounded">
-                      {plantInfo.cycle_days} days
+                  </div>
+                </div>
+
+                {/* Humidity */}
+                <div className="bg-sidebar/60 rounded-lg px-3 py-2 border border-primary/10">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Droplets className="h-3.5 w-3.5 text-primary" />
+                      <span className="text-xs font-medium text-muted-foreground">Humidity</span>
+                    </div>
+                    <span className="text-sm font-bold text-foreground">
+                      {plantInfo.setpoints.rel_humidity_pct.ideal[0]}–{plantInfo.setpoints.rel_humidity_pct.ideal[1]}%
+                    </span>
+                  </div>
+                </div>
+
+                {/* pH */}
+                <div className="bg-sidebar/60 rounded-lg px-3 py-2 border border-primary/10">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <TestTube className="h-3.5 w-3.5 text-primary" />
+                      <span className="text-xs font-medium text-muted-foreground">pH</span>
+                    </div>
+                    <span className="text-sm font-bold text-foreground">
+                      {plantInfo.setpoints.soil_or_solution_ph.ideal[0]}–{plantInfo.setpoints.soil_or_solution_ph.ideal[1]}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Moisture */}
+                <div className="bg-sidebar/60 rounded-lg px-3 py-2 border border-primary/10">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Droplets className="h-3.5 w-3.5 text-primary" />
+                      <span className="text-xs font-medium text-muted-foreground">Moisture</span>
+                    </div>
+                    <span className="text-sm font-bold text-foreground">
+                      {plantInfo.setpoints.soil_moisture.target_pct[0]}–{plantInfo.setpoints.soil_moisture.target_pct[1]}%
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Environmental parameters */}
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Thermometer className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-muted-foreground mb-1">Temperature</p>
-                    <div className="bg-sidebar px-3 py-2 rounded-md">
-                      <p className="text-sm font-medium text-foreground">
-                        {plantInfo.setpoints.air_temp_c.ideal[0]}–{plantInfo.setpoints.air_temp_c.ideal[1]}°C
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        Range: {plantInfo.setpoints.air_temp_c.min}–{plantInfo.setpoints.air_temp_c.max}°C
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Droplets className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-muted-foreground mb-1">Humidity</p>
-                    <div className="bg-sidebar px-3 py-2 rounded-md">
-                      <p className="text-sm font-medium text-foreground">
-                        {plantInfo.setpoints.rel_humidity_pct.ideal[0]}–{plantInfo.setpoints.rel_humidity_pct.ideal[1]}%
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <TestTube className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-muted-foreground mb-1">pH Level</p>
-                    <div className="bg-sidebar px-3 py-2 rounded-md">
-                      <p className="text-sm font-medium text-foreground">
-                        {plantInfo.setpoints.soil_or_solution_ph.ideal[0]}–{plantInfo.setpoints.soil_or_solution_ph.ideal[1]}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="h-9 w-9 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Droplets className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs text-muted-foreground mb-1">Soil Moisture</p>
-                    <div className="bg-sidebar px-3 py-2 rounded-md">
-                      <p className="text-sm font-medium text-foreground">
-                        {plantInfo.setpoints.soil_moisture.target_pct[0]}–{plantInfo.setpoints.soil_moisture.target_pct[1]}%
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {plantInfo.setpoints.soil_moisture.hint}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+              {/* Notes - bottom section */}
+              <div className="bg-primary/10 border-t-2 border-primary/20 px-4 py-3">
+                <p className="text-xs text-foreground leading-relaxed">
+                  <span className="font-semibold text-primary">Note: </span>
+                  {plantInfo.notes}
+                </p>
               </div>
-
-              {/* Notes */}
-              <div className="bg-primary/5 border border-primary/10 rounded-md p-3">
-                <p className="text-xs text-muted-foreground mb-1">Growing Notes</p>
-                <p className="text-sm text-foreground">{plantInfo.notes}</p>
-              </div>
-            </div>
+            </CardContent>
           )}
-        </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 };
