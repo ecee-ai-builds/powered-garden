@@ -234,16 +234,6 @@ const Chat = () => {
                   </div>
                 </div>)}
               
-              {messages.length === 1 && <div className="flex justify-start">
-                  <div className="max-w-[90%] space-y-3">
-                    <div className="grid grid-cols-3 gap-2">
-                      {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} className="h-auto py-2 px-4 text-left justify-center disabled:opacity-50 rounded-full font-light text-xs text-white bg-slate-800 hover:bg-slate-700">
-                          {plant}
-                        </Button>)}
-                    </div>
-                  </div>
-                </div>}
-              
               {isLoading && <div className="flex justify-start">
                   <div className="bg-muted rounded-lg px-4 py-3">
                     <Loader2 className="h-4 w-4 animate-spin text-primary" />
@@ -252,7 +242,14 @@ const Chat = () => {
             </div>
           </ScrollArea>
 
-          <div className="p-4 border-t border-primary/20">
+          <div className="p-4 border-t border-primary/20 space-y-3">
+            {/* Plant Selection Buttons */}
+            <div className="grid grid-cols-3 gap-2">
+              {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} className="h-auto py-2 px-3 text-center justify-center disabled:opacity-50 rounded-full font-light text-xs text-white bg-primary hover:bg-primary/80">
+                  {plant}
+                </Button>)}
+            </div>
+            
             <div className="flex gap-2">
               <Textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown} placeholder="Ask about plants, settings, or your sensor data..." className="min-h-[60px] resize-none" disabled={isLoading} />
               <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="icon" className="h-[60px] w-[60px]">
