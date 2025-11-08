@@ -363,6 +363,33 @@ const Chat = () => {
               </div>
             </CardContent>}
         </Card>
+
+        {/* Recipes Section */}
+        <Card className="mt-4 border-primary/20 hover:border-primary/40 transition-colors">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm font-semibold text-primary flex items-center gap-2">
+              <span className="text-lg">🍽️</span>
+              RECIPES & COOKING IDEAS
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <p className="text-xs text-muted-foreground mb-3">
+              Get Malaysian-inspired recipes and cooking tips for {plantInfo?.common_name || 'your plant'}
+            </p>
+            <Button 
+              onClick={() => {
+                const recipePrompt = `Show me 3 Malaysian recipes I can make with ${plantInfo?.common_name || 'lettuce'}. Include preparation tips.`;
+                setInput(recipePrompt);
+                setTimeout(() => handleSend(), 100);
+              }}
+              className="w-full"
+              variant="outline"
+              disabled={isLoading}
+            >
+              Show Me Recipes
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>;
 };
