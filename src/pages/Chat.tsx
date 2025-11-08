@@ -236,7 +236,7 @@ const Chat = () => {
               
               {messages.length === 1 && <div className="flex justify-start">
                   <div className="max-w-[90%] space-y-3">
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-3 gap-2">
                       {mvpPlants.map(plant => <Button key={plant} onClick={() => handlePlantSelect(plant)} disabled={isLoading} className="h-auto py-2 px-4 text-left justify-center disabled:opacity-50 rounded-full font-light text-xs text-white bg-slate-800 hover:bg-slate-700">
                           {plant}
                         </Button>)}
