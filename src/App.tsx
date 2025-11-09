@@ -15,7 +15,9 @@ import NotFound from "./pages/NotFound";
 import { SensorProvider, useSensorContext } from "@/context/SensorContext";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+
 const queryClient = new QueryClient();
+
 const DashboardHeader = () => {
   const { data, error, isLoading, lastSuccess, refreshMs, refetch } =
     useSensorContext();
@@ -92,31 +94,35 @@ const DashboardHeader = () => {
     </header>
   );
 };
-const App = () => <QueryClientProvider client={queryClient}>
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
         <SensorProvider>
-        <SidebarProvider defaultOpen={true}>
-          <div className="flex min-h-screen w-full">
-            <AppSidebar />
-            <div className="flex-1 flex flex-col">
+          <SidebarProvider defaultOpen={true}>
+            <div className="flex min-h-screen w-full">
+              <AppSidebar />
+              <div className="flex-1 flex flex-col">
                 <DashboardHeader />
-              <main className="flex-1">
-                <Routes>
-                  <Route path="/" element={<Command />} />
-                  <Route path="/chat" element={<Chat />} />
-                  <Route path="/settings" element={<Settings />} />
-                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </main>
+                <main className="flex-1">
+                  <Routes>
+                    <Route path="/" element={<Command />} />
+                    <Route path="/chat" element={<Chat />} />
+                    <Route path="/settings" element={<Settings />} />
+                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </main>
+              </div>
             </div>
-          </div>
-        </SidebarProvider>
+          </SidebarProvider>
         </SensorProvider>
       </BrowserRouter>
     </TooltipProvider>
-  </QueryClientProvider>;
+  </QueryClientProvider>
+);
+
 export default App;
